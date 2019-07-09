@@ -4,7 +4,7 @@ import uuidv1 from 'uuid/v1'
 export default class Transaction extends DataObject {
   constructor(raw) {
     const defaults = {
-      id: uuidv1(),
+      id: raw.id ? raw.id : uuidv1(),
       user: '',
       date: Date.now(),
 
