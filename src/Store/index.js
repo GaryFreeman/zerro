@@ -4,10 +4,10 @@ import LocalStorage from '../services/localstorage'
 
 import data from './data'
 import diff from './diff'
-
 import filterConditions from './filterConditions'
 import openedTransaction from './openedTransaction'
 import token from './token'
+import isPending from './isPending'
 import selectedTransactions from './selectedTransactions'
 
 export const store = configureStore({
@@ -17,6 +17,7 @@ export const store = configureStore({
     filterConditions,
     openedTransaction,
     selectedTransactions,
+    isPending,
     token,
   },
   preloadedState: getInitialState(),
