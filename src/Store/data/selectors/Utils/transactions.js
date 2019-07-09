@@ -63,6 +63,30 @@ export function groupTransactionsAndReturnId(groupType = 'day', arr) {
 }
 
 /**
+ * Groups array of transactions returns IDs
+ * @param {Array: arr} Array of Transaction
+ * @param {String: groupType} Enum day | week | month
+ * @return {Object} Object with keys-dates
+ */
+export function groupTransactions(arr, groupType = 'day') {
+  const groupTypes = {
+    day: date => startOfDay(date),
+    week: date => startOfWeek(date, { weekStartsOn: 1 }),
+    month: date => startOfMonth(date),
+  }
+
+  return arr.reduce((groups, tr) => {
+    const date = +groupTypes[groupType](tr.date)
+    if (groups[date]) {
+      groups[date].push(tr)
+    } else {
+      groups[date] = [tr]
+    }
+    return groups
+  }, {})
+}
+
+/**
  * Accumulates data about transaction array
  * @param {Array of Transaction} group type
  * @return {Object} results partitioned by income and outcome
