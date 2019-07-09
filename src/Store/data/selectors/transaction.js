@@ -7,11 +7,9 @@ import { getTagsById } from './tags'
 import { getMerchantsById } from './merchants'
 import { groupTransactionsBy } from './Utils/transactions'
 import { getFilterConditions, check } from '../../filterConditions'
+import Transaction from 'dataClasses/Transaction'
 
-export const normalize = (
-  { instruments, accounts, users, tags, merchants },
-  raw
-) => ({
+const normalize = ({ instruments, accounts, users, tags, merchants }, raw) => ({
   id: raw.id,
   user: users[raw.user],
   date: +parseDate(raw.date),
@@ -77,7 +75,11 @@ export const getTransactionsById = createSelector(
 export const getRawTransactionsById = createSelector(
   ['data.transaction', 'diff.transaction'],
   (transactions, diff) => {
-    return { ...transactions, ...diff }
+    const merged = { ...transactions, ...diff }
+    return Object.keys(merged).reduce((obj, key) => {
+      obj[key] = new Transaction(merged[key])
+      return obj
+    }, {})
   }
 )
 
